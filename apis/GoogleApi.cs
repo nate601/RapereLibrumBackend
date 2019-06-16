@@ -14,9 +14,8 @@ namespace backend.Apis
             IRestResponse response = client.Execute(searchRequest, Method.GET);
             JObject content = JObject.Parse(response.Content);
             JToken authorNameToken = content.SelectToken("$.items[0].volumeInfo.title");
-
-
-            return null; //TODO:Remove
+            JToken bookTitle = content.SelectToken("$.items[0].volumeTitle.authors[0]");
+            return new GoogleBookInfo(authorNameToken.ToString(), bookTitle.ToString(), Isbn.ToString());
         }
         public class GoogleBookInfo
         {
