@@ -27,7 +27,7 @@ namespace backend.Apis
                 return new GoogleBookInfo(authorNameToken.Value<String>(), bookTitle.Value<String>(), Isbn.ToString(), urlToThumbnail.Value<String>(), averageRating.Value<String>(), numberOfRatings.Value<String>());
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
