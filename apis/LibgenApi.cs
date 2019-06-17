@@ -14,16 +14,22 @@ namespace backend.Apis
         //  http://libgen.io/search.php?req=Mistborn
         public static RowInfo[] GetLibgen(string bookTitle)
         {
-            ScrapingBrowser browser = new ScrapingBrowser();
-            var page = browser.NavigateToPage(new Uri($"http://libgen.io/search.php?req={bookTitle}"));
-            var rowHtml = page.Html.CssSelect("body > table.c > tbody > tr:nth-child(n+2)");
-            var rowHtmlEpub = rowHtml.Where((node) => node.ToString().Contains("epub"));
-            var rowInfos = rowHtmlEpub.Select((node) =>
+            try
             {
-                return new RowInfo(node);
-            });
-            return rowInfos.ToArray();
-
+                ScrapingBrowser browser = new ScrapingBrowser();
+                var page = browser.NavigateToPage(new Uri($"http://libgen.io/search.php?req={bookTitle}"));
+                var rowHtml = page.Html.CssSelect("body > table.c > tbody > tr:nth-child(n+2)");
+                var rowHtmlEpub = rowHtml.Where((node) => node.ToString().Contains("epub"));
+                var rowInfos = rowHtmlEpub.Select((node) =>
+                {
+                    return new RowInfo(node);
+                });
+                return rowInfos.ToArray();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         public class RowInfo
         {
