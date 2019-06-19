@@ -9,14 +9,17 @@ namespace backend.Apis
         public static RowInfo[] GetLibgen(string bookTitle)
         {
             //try
-            var html = @"http://libgen.io/search.php?req=Mistborn";
+            var html = $@"http://libgen.io/search.php?req={bookTitle}";
 
             HtmlWeb web = new HtmlWeb();
 
             var htmlDoc = web.Load(html);
 
             var rowHtml = htmlDoc.DocumentNode.SelectNodes("/html/body/table[3]/tr[position()>1]");
-
+            if (rowHtml == null || rowHtml.Count == 0)
+            {
+                return null;
+            }
             var rowHtmlEpub = rowHtml.Where((node) => node.InnerHtml.Contains("epub"));
             var rowInfos = rowHtmlEpub.Select((node, index) =>
             {
