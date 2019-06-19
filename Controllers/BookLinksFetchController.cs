@@ -8,9 +8,9 @@ public class BookLinksFetchController : ControllerBase
     public ActionResult<LibgenApi.RowInfo> Get(string bookTitle)
     {
         var bookInfos = LibgenApi.GetLibgen(bookTitle);
-        //if (bookInfos != null)
-        return new OkObjectResult(bookInfos);
-        //return new NotFoundResult();
+        if (bookInfos != null)
+            return new OkObjectResult(bookInfos);
+        return new NotFoundResult();
     }
 
 
